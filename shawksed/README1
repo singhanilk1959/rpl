@@ -1,0 +1,10 @@
+
+This directory contains example code from the book _The Ruby Programming
+Language_, by David Flanagan and Yukihiro Matsumoto and published by
+O'Reilly Media. (ISBN 978-0-596-51617-8).
+
+The files with ".rb" extensions are numbered examples from the book.
+Example 1-1, for example is in the file 1-1.rb.  That first example is a
+complete working Ruby program for solving Sudoku puzzles. Most of the
+other numbered examples, however, consist of class and method
+definitions and cannot be run as standalone programs.

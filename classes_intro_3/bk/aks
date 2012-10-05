@@ -1,0 +1,1 @@
+out=`cat ex2.rb` ; puts out ; print "Press Enter:" ; out1=gets ;
