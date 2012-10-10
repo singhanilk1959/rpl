@@ -184,6 +184,9 @@ end
 puts ;out = gets ;
 
 print %-
+Classes and Modules are instances of the Class and Module classes. As such, they
+can be created dynamically 
+
 ***************
 M = Module.new      # Define a new module M
 C = Class.new       # Define a new class C
@@ -192,10 +195,16 @@ D = Class.new(C) {  # Define a subclass of C
 }
 D.to_s              # => "D": class gets constant name by magic
 *********************
+
+
+A dynamically created anonymous class or module  takes the name of the constant 
+that it is assigned to.
 -
 puts ;out = gets ;
 
 print %-
+One of the most powerful reflective feature is eavl method (Kernel.eval) which is generally not used
+unless you are writing irb or something like that.
 ***************
 x = 1
 eval "x + 1"  # => 2
