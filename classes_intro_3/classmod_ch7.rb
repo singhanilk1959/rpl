@@ -1342,6 +1342,26 @@ print %^
 *************
 ^
 puts ; out1 = gets 
+print %^
+*************
+$g_anil_name  = "Anil Singh" #define a global variable
+
+puts $g_anil_name 
+class Apoint
+  puts $g_anil_name
+  ACON = $g_anil_name
+  puts ACON
+end
+*************
+^
+$g_anil_name  = "Anil Singh" #define a global variable
+
+puts $g_anil_name 
+class Apoint
+  puts $g_anil_name
+  ACON = $g_anil_name
+  puts ACON
+end
 __END__
 
 class Point
