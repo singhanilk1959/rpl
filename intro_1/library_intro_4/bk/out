@@ -1,9 +1,0 @@
-#!/usr/bin/env ruby
-#
-# Ruby gives you two  built-in classes that, between them, provide all the 
-# functionality of the text: String and Symbol class.
-# String are mutable objects.  
-# A single-quoted string behaves differently than double quoted strings:
-#   1. The string interpolation does not work with single-quoted strings.
-#   
-
