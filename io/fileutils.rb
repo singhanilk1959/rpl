@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 #
 #
+puts `cat fileutils.rb`
 require 'fileutils'
 include FileUtils::Verbose
 

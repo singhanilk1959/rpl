@@ -271,6 +271,7 @@ p sum = (1..5).reduce(:+)                    # => 15
 p prod = (1..5).reduce(:*)                   # => 120
 p letters = ('a'..'e').reduce("-", :concat)  # => "-abcde"
 __END__
+
 ---------------------------
 (5..7).each {|x| print x }                 # Prints "567"
 (5..7).each_with_index {|x,i| print x,i }  # Prints "506172"

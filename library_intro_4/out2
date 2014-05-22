@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+#
+###from command line
+#ruby -e 'puts Module.constants.sort.reject{|x| eval(x.to_s).is_a? Module}'
+puts `cat constants_ruby.rb` 
+
+gets ; 
+
+
+puts Module.constants.sort.reject{|x| eval(x.to_s).is_a? Module}
+
+puts ; gets
+
+
+
+
+ARGF
+ARGV
+CROSS_COMPILING
+ENV
+FALSE
+NIL
+RUBYGEMS_ACTIVATION_MONITOR
+RUBY_COPYRIGHT
+RUBY_DESCRIPTION
+RUBY_ENGINE
+RUBY_PATCHLEVEL
+RUBY_PLATFORM
+RUBY_RELEASE_DATE
+RUBY_REVISION
+RUBY_VERSION
+STDERR
+STDIN
+STDOUT
+TOPLEVEL_BINDING
+TRUE
+

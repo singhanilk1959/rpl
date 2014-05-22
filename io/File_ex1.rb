@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+puts `cat File_ex1.rb`
 
 `find . -name '*.rb'`.split("\n").each do |filename|
   puts filename

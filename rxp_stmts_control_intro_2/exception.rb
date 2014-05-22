@@ -14,6 +14,7 @@ puts %q^
  Ruby uses the Kernel method raise to raise exceptions, and uses rescue clause
  to handle exceptions.
 ^
+gets
 puts %q^
 ***************************
 ---------------------------
@@ -48,6 +49,8 @@ Object
          +--ThreadError
          +--TypeError
          +--ZeroDivisionError
+^
+gets
 puts %q^
 
   It is  important to note that most of these subclasses extend class known 
@@ -60,31 +63,45 @@ puts %q^
 
   class MyError < StandardError; end
 ^
+gets
 
 puts %q^
-
-  The 
-^
-
 ---------------------------
 class MyError < StandardError; end
 
 ***************************
+
 ^
+
 puts ; gets
 puts %q^
 ***************************
+
+
+# Exception objects are typically created by Kernel method #raise or its synonym #fail.
+# But you can create your own objects with #new or with
+# another class method #exception with a single optional String argument.
+#
+# 1. #raise with no arguments create RuntimeError object with no message and raises it.
+# 2. #raise without arguments in a rescue clause: reraises the exception being handled.
+# 3. #raise with an object (Exception Class or its subclasses) that has #exception method 
+#     defined invokes the exception method  and raises the returned Exception object.
+# 4. #raise with an Exception object raises that exception.
+
 def factorial(n)                 # Define a factorial method with argument n
-  raise "bad argument" if n < 1  # Raise an exception for bad n
+  raise "bad argument" if n < 1  # Raise an exception for bad n (#1 raises RuntimeError)
   return 1 if n == 1             # factorial(1) is 1
   n * factorial(n-1)             # Compute other factorials recursively
 end
 ---------------------------
+# Exampls of #3 : the standard way to create exception
+
 raise RuntimeError, "bad argument" if n < 1
 raise RuntimeError.new("bad argument") if n < 1
 raise RuntimeError.exception("bad argument") if n < 1
 ---------------------------
 raise ArgumentError if n < 1
+fail  ArgumentError if n < 1 # both statements are same as fail is synonym for raise
 ---------------------------
 raise ArgumentError, "Expected argument >= 1. Got #{n}" if n < 1
 ---------------------------
@@ -94,6 +111,12 @@ end
 ---------------------------
 raise TypeError, "Integer argument expected" if not n.is_a? Integer
 ---------------------------
+
+^
+puts ; gets
+puts %q^
+# rescue is not an statement in its own right, but rather a clause that can be attached to other
+# ruby statements, but is generally used with begin statement.
 begin
   # Any number of Ruby statements go here.
   # Usually, they are executed without exceptions and
@@ -103,6 +126,9 @@ rescue
   # If an exception is raised by the code above, or propagates up
   # from one of the methods called above, then execution jumps here.
 end
+
+# In the rescue clause, the global variable $! or $ERROR_INFO (with 'require 'English')
+# refers to the Exception object that being handled.
 ---------------------------
 
 ***************************
@@ -121,11 +147,13 @@ rescue => ex                         # Store exception in variable ex
   puts "#{ex.class}: #{ex.message}"  # Handle exception by printing message
 end                                  # End the begin/rescue block
 ---------------------------
-rescue Exception
+# rescue without any Exception class handles only StandardError and subclasses.
+rescue
+rescue Exception                     # handle any kind of exception
 ---------------------------
-rescue ArgumentError => e
+rescue ArgumentError => e            # handles only ArgumentError
 ---------------------------
-rescue ArgumentError, TypeError => error
+rescue ArgumentError, TypeError => error # handles ArgumentError, TypeError
 ---------------------------
 begin
   x = factorial(1)
@@ -133,8 +161,14 @@ rescue ArgumentError => ex
   puts "Try again with a value >= 1"
 rescue TypeError => ex
   puts "Try again with an integer"
+rescue Exception
+  raise  # exit whatever want to do here
 end
 
+# Ruby attempts to match exceptions to rescue clauses in the order they are written.
+# So, you should write most specific exception subclasses first and follow up with more
+# general classes.
+# Use rescue Exception  as a last clause for catch all situations.
 ***************************
 ^
 puts ; gets
@@ -232,10 +266,15 @@ end
 puts ; gets
 puts %q^
 ***************************
+# rescue can also be used as an statement modifier. 
+# when used this way, rescue must be used alone with no exception names, variable
+# it handles any StandardException error 
 ---------------------------
 # Compute factorial of x, or use 0 if the method raises an exception
 y = factorial(x) rescue 0
----------------------------
+
+is eqivalent to
+
 y = begin
       factorial(x)
     rescue
@@ -271,27 +310,6 @@ else
   END { puts "else" }          # This is not executed
 end
 10.times {END { puts "loop" }} # Only executed once
-
-***************************
-^
-puts ; gets
-puts %q^
-***************************
-# This method expects an array of filenames.
-# It returns an array of strings holding the content of the named files.
-# The method creates one thread for each named file.
-def readfiles(filenames)
-  # Create an array of threads from the array of filenames.
-  # Each thread starts reading a file.
-  threads = filenames.map do |f|
-    Thread.new { File.read(f) }
-  end
-
-  # Now create an array of file contents by calling the value
-  # method of each thread. This method blocks, if necessary,
-  # until the thread exits with a value.
-  threads.map {|t| t.value }
-end
 
 ***************************
 ^

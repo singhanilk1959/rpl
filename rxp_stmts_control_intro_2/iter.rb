@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # If x is less than 10, increment it
-puts ; out = gets ;
+#puts ; out = gets ;
 print %^
 # It is more common to write loops using iterators rather than while,until, for.
 # The complex control behind this is yield.
@@ -53,6 +53,35 @@ chars = "hello world".tap {|x| puts "original object: #{x.inspect}"}
   .map {|c| c.succ } .tap {|x| puts "map returns: #{x.inspect}" }
   .sort              .tap {|x| puts "sort returns: #{x.inspect}"}
 
+gets
+print %q^
+****** READ ONLINE DOCUMENTATION for Enumerable::Enumerator ************
+
+Enumerators are of class Enumerable::Enumerator. A class which allows both internal and external iteration.
+
+An Enumerator can be created by : Kernel#enum_for, Kernel#to_enum, ::new.
+
+Internal iterator: When the iterator controls the iteration, the iterator is an Internal iterator.
+External iterator: When the client controls the iteration.
+
+
+Although new can be used to instantiate this class, use to_enum or its synonym
+enum_for defined in Objects to create Enumerators.
+
+With no arguments, to_enum returns an Enumerator whose #each method will simply call the #each method  of the target object.
+
+You can pass arguments to to_num, although enum_for seems more natural in this case. The first argument should be a symbol that identifies an iterator method. 
+The each method of the resulting Enumerator will invoke the named method of the original object. Any remaining arguments will be passed to the named method.
+
+In ruby 1.9, it is not even necessary to use to_enum/enun_for. Because, the built-in Numeric iterators (times,upto,downto,step) and Enumerable methods each and related methods return an Enumerator when invoked with no-block.
+
+Your class may define iterators each or others  but may not be Enumerable as it has not included Enumerable include Enumerable i.e you can not use collect, reject etc.
+
+In Ruby 1.9, the String class is not Enumerable.
+But, it defines three iterators each_char, each_byte, each_line
+
+******************************************
+^
 puts ; out = gets ;
 print %q^
 
@@ -153,9 +182,8 @@ puts 'floatprod = data.inject(1.0) {|p,x| p*x }   # => 120.0 (1.0*2*5*3*4) '
 floatprod = data.inject(1.0) {|p,x| p*x }   ; puts floatprod # => 120.0 (1.0*2*5*3*4)
 puts 'max = data.inject {|m,x| m>x ? m : x }   ; puts max  # => 5     (largest element) '
 max = data.inject {|m,x| m>x ? m : x }   ; puts max  # => 5     (largest element)
-puts; puts ; out = gets
-require "./collections.rb"
 
+puts; gets
 #---------------------------
 puts %q^
 filename = "README"
@@ -309,27 +337,6 @@ In 1.9, it is built-in.
 
 ^
 gets
-print %q^
-Enumerators are of class Enumerable::Enumerator.
-
-Although new can be used to instantiate this class, use to_enum or its synonym
-enum_for defined in Objects to create Enumerators.
-
-With no arguments, to_enum returns an Enumerator whose #each method will simly call the #each method  of the target object.
-
-You can pass arguments to to_num, although enum_for seems more natural in this case. The first argument should be a symbol that identifies an iterator method. 
-The each method of the resulting Enumerator will invoke the named method of the original object. Any remaining arguments will be passed to the named method.
-
-In ruby 1.9, it is not even necessary to use to_enum/enun_for. Because, the built-in Numeric iterators (times,upto,downto,step) and Enumerable methods each and related methods return an Enumerator when invoked with no-block.
-
-Your class may define iterators each or others  but may not be Enumerable as it has not included Enumerable include Enumerable i.e you can not use collect, reject etc.
-
-In Ruby 1.9, the String class is not Enumerable.
-But, it defines three iterators each_char, each_byte, each_line
-
-******************************************
-^
-puts ; out = gets ;
 
 print %q^
 #********************************
@@ -518,8 +525,27 @@ loop do
   item = block.next
   puts "In loop", item
 end
-puts ; out = gets ;
 
+puts ; out = gets ;
+puts %q^
+# Iteration and Concurrent Modification
+---------------------------
+a = [1,2,3,4,5]
+#a.each {|x| puts "#{x},#{a.shift}" }  # prints "1,1\n3,2\n5,3"
+
+# To avoid this surprise, use each_in_snapshot to make a defensive copy before iterating it
+---------------------------
+module Enumerable
+  def each_in_snapshot &block
+    snapshot = self.dup    # Make a private copy of the Enumerable object
+    snapshot.each &block   # And iterate on the copy
+  end
+end
+---------------------------
+#a.each_in {|x| puts "#{x},#{a.shift}" }  # prints "1,2,3,4,5"
+^
+
+require "./collections.rb"
 __END__
 x = ARGV[0].to_f  # Convert first argument to a number
 y = ARGV[1].to_f  # Convert second argument to a number
@@ -1583,3 +1609,4 @@ line 20              # Declare this spot to be line 20
 puts i -= 1
 goto 20 if i > 0
 ---------------------------
+puts; puts ; out = gets

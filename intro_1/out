@@ -1,0 +1,13 @@
+puts %q^
+
+   Top level methods are instance methods of Object (even though self is not Object).
+   Top levels methods are always private. 
+
+    
+   Top level methods, being instance methods of Object, are inherited by all Classes including
+   Module and Class. They can be used anywhere either in instance or class methods.
+
+   Top levels being private must be invoked like functions without an explicit receiver.
+   In this way, Ruby mimics procedure programming paradigm within its strictly Object Oriented framework.
+
+^

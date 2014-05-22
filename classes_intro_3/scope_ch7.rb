@@ -11,7 +11,7 @@
 #         will come only after constants defined at Top level or global level
 #        EM->IM : repeat it for evey class...I have just shown it for one
 
-out=`cat scope_ch7.rb` ; puts out ; print "Press Enter:" ; out1=gets ;
+out=`cat scope_ch7.rb` ; puts out ; print "Press Enter: Please read the source file" ; out1=gets ;
 ##############
 
 module Kernel
