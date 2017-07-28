@@ -5,6 +5,7 @@ print %^
 # It is more common to write loops using iterators rather than while,until, for.
 # The complex control behind this is yield.
 # The term iterator is used to mean any method that uses yield.
+# A method that expects a block and invokes it multiple times is called an iterator.
 
 #************************
 data = [8 10 15]

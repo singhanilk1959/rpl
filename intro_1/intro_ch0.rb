@@ -1,3 +1,4 @@
+
 #!/usr/bin/env ruby
 Dir.chdir("bk")
 require "./ex1"
